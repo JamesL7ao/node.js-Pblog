@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>个人博客</title>
+		<style type="text/css">
+			body{
+				background:url(../public/images/re.jpg) no-repeat; 
+				background-size: 100% 100%;
+			}
+			h1{
+				width: 527px;
+				margin-left: auto;
+				margin-right: auto;
+				background-color: #fff;
+				color: #ff0000;
+				opacity: 0.6;
+				border-radius: 10px;
+			}
+			.login{
+				position: absolute;
+				right: 65px;
+				top: 5px;
+				width: 42px;
+				padding: 5px;
+				background-color: #fff;
+				border-radius: 5px;
+				text-align: center;
+				cursor: pointer;
+				margin-right: 10px;
+			}
+			.login:hover,.register:hover,.quit:hover{
+				background-color: orange;
+			}
+			.login:hover>a,.register:hover>a,.quit:hover>a{
+				color: #fff;
+			}
+
+			.login>a,.register>a,.quit>a{
+				text-decoration: none;
+				color: black;
+			}
+			.register{
+				width: 42px;
+				padding: 5px;
+				background-color: #fff;
+				border-radius: 5px;
+				text-align: center;
+				position: absolute;
+				right: 20px;
+				top: 5px;
+				cursor: pointer;
+			}
+			.quit{
+				width: 42px;
+				padding: 5px;
+				background-color: #fff;
+				border-radius: 5px;
+				text-align: center;
+				cursor: pointer;
+				position: absolute;
+				left: 5px;
+				top: 5px;
+			}
+			section{
+				margin: 30px auto ;
+				text-align: center;
+			}
+			textarea{
+				resize: none;
+				border-radius: 6px;
+			}
+			button{
+				height: 24px;
+				line-height: 17px;
+				cursor: pointer;
+				padding: 4px 10px;
+				display: inline-block;
+				background-color: #ffc09f;
+				border: 1px solid #fbbd9e;
+				color: #fff;
+				font-size: 14px;
+				border-radius: 2px;
+			}
+			button:hover{
+				background-color: orange;
+				color: #fff;
+			}
+			ul{
+				padding-left: 0px;
+				margin: 0 auto;
+				width: 527px;
+			}
+			li{
+				width: 527px;
+				list-style: none;
+				border: 1px solid #000;
+				text-align: left;
+				margin-bottom: 30px;
+				background-color: #fff;
+				opacity: 0.8;
+				border-radius: 10px;
+			}
+			img{
+				margin: 8px;
+				vertical-align: middle;
+				cursor: pointer;
+				margin-right: 1px;
+			}
+			li span.user{
+				color: red;
+			}
+			span.username{
+				color: red;
+				font-weight: bold;
+			}
+			p>span,div>span{
+				display: inline-block;
+			}
+			p{
+				padding-left: 48px;
+				margin-top: 4px;
+			}
+			p.good{
+				text-align: right;
+				margin-bottom: 8px;
+				padding-left: 0;
+			}
+			p.good>span{
+				margin:0 8px;
+				cursor: pointer;
+			}
+			span.close{
+				display: inline-block;
+				width: 20px;
+				height: 20px;
+				text-align: center;
+				color: red;
+				font-size: 18px;
+				cursor: pointer;
+				float: right;
+				margin-top: 15px;
+				margin-right: 10px;
+			}
+			p.sp{
+				width: 527px;
+				margin: 0 auto 20px;
+				padding-left: 0;
+				text-align: right;
+			}
+			span.hidden{
+				display: none;
+			}
+			span.date{
+				color: grey;
+				font-size: 12px;
+			}
+			p.com{
+				padding-left: 0;
+				margin-bottom: 4px;
+				text-align: center;
+				display: none;
+			}
+			p.mesComment{
+				border-top: 1px dashed grey;
+				margin: 16px 0;
+				padding-top: 16px;
+			}
+			p.mesComment>span.date{
+				font-size: 12px;
+				color: grey;
+				margin-left: 20px;
+			}
+			p.mesComment>span.mesU{
+				color: #eb7350;
+				font-weight: bolder;
+			}
+		</style>
+	</head>
+	<body>
+		<section>
+			<% if(show){ %>
+				<h1>欢迎来到不上火的蜜汁鸡的博客(请先登录)</h1>
+				<textarea rows="6" cols="72" disabled></textarea><br><br>
+			<% }else{ %>
+				<h1>欢迎  <span class="username"><%= user %></span>  进入不上火的蜜汁鸡的博客</h1>
+				<textarea class="send" rows="6" cols="72" ></textarea><br><br>
+			<% } %>
+			<p class="sp"><button class="appear">发表微博</button></p>
+			<ul>
+				<% for(var i=0;i<message.length;i++){ %>
+					<li>
+						<div>
+							<img src="../public/images/timg.jpg" width="40px">
+							<span class="user"><%= message[i].loginName %></span> 
+							<% if(message[i].loginName==user){ %>
+								<span class="close" onclick="deleteBlog(this)">×</span>
+							<% } %>
+							<span class="hidden"><%= message[i]._id %></span>
+						</div>
+						<p><%= message[i].content %></p>
+						<p class="good">
+							<span class="date"><%= message[i].date %></span>
+							<img src="../public/images/good.jpg" height="20px" onclick="good(this)">
+							<span class="goodNum"><%= message[i].agree.length %></span>
+							<span class="comment">评论</span>
+						</p>
+						<p class="com">
+							<textarea rows="1" cols="62"></textarea>
+							<button class="btnCom" onclick="comment(this)">评论</button>
+						</p>
+						<% for(var j=0;j<mesCom.length;j++){ %>
+							<% if(mesCom[j].id==message[i]._id){ %>
+								<p class="mesComment">
+									<span class="mesU"><%= mesCom[j].loginName %></span> ：
+									<span><%= mesCom[j].com %></span>
+									<span class="date"><%= mesCom[j].date %></span>
+								</p>
+							<% } %>
+						<% } %>
+					</li>
+				<% } %>
+			</ul>
+		</section>
+				
+		<span class="login"><a href="http://localhost:8989/login">登录</a></span>
+		<span class="register"><a href="http://localhost:8989/register">注册</a></span>
+		<span class="quit"><a href="http://localhost:8989/quit">退出</a></span>
+
+		<script src="../public/js/jquery-1.11.1.js"></script>
+		<script type="text/javascript">
+
+			// 点击发布
+			$('.appear').click(function() {
+				if ($('.username').html()) {
+					$.ajax({
+						type:"post",
+						url:"http://localhost:8989/save",
+						dataType:'json',
+						data:{
+							loginUser:$('.username').html(),
+							content:$('.send').val()
+						},
+						success:function(res){
+							if (res.status=='数据插入成功！') {
+								// console.log('微博心情保存成功！');
+								var tag=$(`<li>
+											<div>
+												<img src="../public/images/timg.jpg" width="40px">
+												<span class="user">${$('.username').html()}</span>
+												<span class="close" onclick="deleteBlog(this)">×</span>
+												<span class="hidden">${res.id}</span>
+											</div>
+											<p>${$('.send').val()}</p>
+											<p class="good">
+												<span class="date">${res.date}</span>
+												<img src="../public/images/good.jpg" height="20px" onclick="good(this)">
+												<span class="goodNum">${0}</span>
+												<span class="comment">评论</span>
+											</p>
+											<p class="com">
+												<textarea rows="1" cols="62"></textarea>
+												<button class="btnCom" onclick="comment(this)">评论</button>
+											</p>
+										</li>`);
+								$('ul').append(tag);
+								$('.send').val('');
+							}
+						}
+					})
+				}else{
+					location.href='http://localhost:8989/login'
+				}
+			});
+
+			// 删除微博
+			function deleteBlog(a){
+				$.ajax({
+					type:'post',
+					url:'http://localhost:8989/deleteBlog',
+					data:{
+						id:$(a).siblings('.hidden').html()
+					},
+					dataType:'json',
+					success:function(res){
+						// console.log(res);
+						if(res.n==1){
+							$(a).parent().parent().remove();
+						}
+					}
+				})
+			}
+
+			// 点赞
+			function good(a){
+				$.ajax({
+					type:'post',
+					url:'http://localhost:8989/goodNum',
+					data:{
+						liker:$('.username').html(),
+						id:$(a).parent().siblings('div').children('.hidden').html()
+					},
+					dataType:'json',
+					success:function(res){
+						if (res.status=='点赞成功！') {
+							console.log('点赞成功！')
+							$(a).siblings('.goodNum').html(res.goodNum);
+						}else if(res.status=='取消点赞成功！'){
+							console.log('取消点赞成功！')
+							$(a).siblings('.goodNum').html(res.goodNum);
+						}
+					}
+				})
+			}	
+
+			//点击评论
+			$('.comment').click(function(){
+				$(this).parent().siblings('.com').slideToggle();
+			})
+			// 评论
+			function comment(a){	
+				$.ajax({
+					type:'post',
+					url:'http://localhost:8989/comment',
+					data:{
+						user:$('.username').html(),
+						id:$(a).parent().siblings('div').children('.hidden').html(),
+						com:$(a).siblings('textarea').val()
+					},
+					dataType:'json',
+					success:function(res){
+						if (res.status=='评论成功！') {
+							console.log('评论成功！')
+							console.log($(a))
+							$(a).parent().parent().append(`<p class="mesComment">
+									<span class="mesU">${$('.username').html()}</span>评论：
+									<span>${res.com}</span>
+									<span class="date">${res.date}</span>
+								</p>`);
+							$(a).siblings('textarea').val('');
+						}					
+					}
+				})
+			}
+		</script>
+	</body>
+</html>

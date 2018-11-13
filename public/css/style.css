@@ -1,0 +1,45 @@
+.myinfo{
+	width: 60%;
+	margin-left: auto;
+	margin-right: auto;
+	border: 1px solid #ccc;
+	padding: 20px;
+}
+.title{
+	margin-top: 50px;
+}
+sup{
+	color: red;
+	font-weight: bold;
+}
+body{
+	font-size: 14px;
+}
+#personal{
+	resize: none;
+	height: 100px;
+}
+.menu{
+	position: fixed;
+	right: 40px;
+	top: 10px;
+	cursor: pointer;
+}
+.menu ul{
+	position: absolute;
+    width: 38px;
+    padding: 4px;
+    left: -8px;
+    top: 26px;
+    border: 1px solid #ccc;
+    display: none;
+}
+.list{
+	width: 60%;
+	margin-left: auto;
+	margin-right: auto;
+}
+.list .media-body{
+	border: 1px solid #ccc;
+	padding: 10px;
+}

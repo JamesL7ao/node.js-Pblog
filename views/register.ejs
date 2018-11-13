@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>个人博客</title>
+		<link rel="stylesheet" href="../public/css/bootstrap.css">
+		<link rel="stylesheet" href="../public/css/style.css">
+	</head>
+	<body>
+		<div class="menu">
+			<img src="../public/images/menu.png" alt="" width="18px">
+			<ul class="list-unstyled">
+				<li><a href="login">登录</a></li>
+			</ul>
+		</div>
+		<h2 class="text-center title">我的博客</h2>
+		<form class="myinfo">
+		  <div class="form-group">
+		    <label for="exampleInputEmail1">用户名<sup>*</sup></label>
+		    <input type="user" class="form-control" id="username" placeholder="user">
+		    <span class="u"></span>
+		  </div>
+		  <div class="form-group">
+		    <label for="exampleInputPassword1">密码<sup>*</sup></label>
+		    <input type="password" class="form-control" id="password" placeholder="Password">
+		    <span class="p"></span>
+		  </div>
+		  <div class="form-group">
+		    <label for="exampleInputPassword1">确认密码<sup>*</sup></label>
+		    <input type="password" class="form-control" id="repassword" placeholder="Password">
+		  </div>
+		  <span class="btn btn-primary" value="注册" style="width:100%">注册</span>
+		</form>
+
+		<script src="../public/js/jquery-1.11.1.js"></script>
+		<script src="../public/js/bootstrap.min.js"></script>
+		<script>
+			$('.menu img').click(function(event) {
+				$('.menu ul').slideToggle(100);
+			});
+			
+			$('.btn').click(function(){
+				var a=true;
+				if($('#username').val()==''){
+					a=false;
+					$('.u').html('请输入正确用户名');
+					$('.u').css('color', 'red');
+				}
+				if($('#password').val()==''){
+					a=false;
+					$('.p').html('请输入正确密码');
+					$('.p').css('color', 'red');
+				}
+				if(a){
+					$.ajax({
+						type:"post",
+						url:"http://localhost:8989/register",
+						dataType:"json",
+						data: {
+							username: $('#username').val(),
+							password:$('#password').val()
+						},
+						success:(res)=>{
+							if (res.status=="数据插入成功！") {
+								console.log(999)
+								location.href='http://localhost:8989/login'
+							}else if(res.status=="用户名已经存在!"){
+								$('.u').html('用户名已经存在!');
+								$('.u').css('color', 'red');
+							}
+						}
+					});
+				}
+			})
+		</script>
+	</body>
+</html>
